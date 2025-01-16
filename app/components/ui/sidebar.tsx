@@ -1,8 +1,10 @@
 import * as React from "react";
-// import { Slot } from "@radix-ui/react-slot";
+import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
 import { PanelLeft } from "lucide-react";
 
+// import { useIsMobile } from "~/hooks/use-mobile";
+import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
@@ -14,8 +16,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { useIsMobile } from "~/hooks/use-mobile";
-import { cn } from "~/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -65,7 +65,7 @@ const SidebarProvider = React.forwardRef<
     },
     ref
   ) => {
-    const isMobile = useIsMobile();
+    const isMobile = false; // useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
 
     // This is the internal state of the sidebar.
@@ -430,7 +430,7 @@ const SidebarGroupLabel = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & { asChild?: boolean }
 >(({ className, asChild = false, ...props }, ref) => {
-  const Comp = "div";
+  const Comp = asChild ? Slot : "div";
 
   return (
     <Comp
@@ -451,7 +451,7 @@ const SidebarGroupAction = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<"button"> & { asChild?: boolean }
 >(({ className, asChild = false, ...props }, ref) => {
-  const Comp = "button";
+  const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
@@ -551,7 +551,7 @@ const SidebarMenuButton = React.forwardRef<
     },
     ref
   ) => {
-    const Comp = "button";
+    const Comp = asChild ? Slot : "button";
     const { isMobile, state } = useSidebar();
 
     const button = (
@@ -597,7 +597,7 @@ const SidebarMenuAction = React.forwardRef<
     showOnHover?: boolean;
   }
 >(({ className, asChild = false, showOnHover = false, ...props }, ref) => {
-  const Comp = "button";
+  const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
@@ -711,7 +711,7 @@ const SidebarMenuSubButton = React.forwardRef<
     isActive?: boolean;
   }
 >(({ asChild = false, size = "md", isActive, className, ...props }, ref) => {
-  const Comp = "a";
+  const Comp = asChild ? Slot : "a";
 
   return (
     <Comp
